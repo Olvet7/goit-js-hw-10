@@ -1,15 +1,58 @@
+import axios from 'axios';
 import SlimSelect from 'slim-select';
-import axios from "axios";
-import { BASE_URL, API_KEY } from './cat-api';
-import { fetchBreeds, someOtherFunction } from './cat-api';
+import {fetchBreeds} from './cat-api';
 
 
-console.log(BASE_URL);
-console.log(API_KEY);
 
-const select = document.querySelector('selexct[breed-select]'),
-console.log(select);
+// Ваша реалізація функцій з cat-api.js
 
-new SlimSelect({
-    select: 'option[value 1]',
-  })
+// Функція для показу loader
+function showLoader() {
+  document.querySelector('.loader').style.display = 'block';
+}
+
+// Функція для приховання loader
+function hideLoader() {
+  document.querySelector('.loader').style.display = 'none';
+}
+
+// Функція для показу error
+function showError() {
+  document.querySelector('.error').style.display = 'block';
+}
+
+// Функція для приховання error
+function hideError() {
+  document.querySelector('.error').style.display = 'none';
+}
+
+// Завантаження списку порід під час завантаження сторінки
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    showLoader();
+    const response = await fetchBreeds();
+    const allBreeds = response.data;
+    const selectBreed = document.querySelector('.breed-select');
+    selectBreed.innerHTML = createMarcupBreeds(allBreeds);
+    new SlimSelect({ select: '.breed-select' });
+  } catch (error) {
+    showError();
+  } finally {
+    hideLoader();
+  }
+});
+
+// Обробник подій для вибору породи
+document.querySelector('.breed-select').addEventListener('change', async (event) => {
+  const selectedBreedId = event.target.value;
+  try {
+    showLoader();
+    const catInfo = await fetchCatByBreed(selectedBreedId);
+    // Відобразіть інформацію про кота в DOM
+    // Наприклад, ви можете викликати функцію, яка створить блок із зображенням та іншою інформацією
+  } catch (error) {
+    showError();
+  } finally {
+    hideLoader();
+  }
+});
