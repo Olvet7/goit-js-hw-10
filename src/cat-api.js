@@ -17,17 +17,6 @@ export function createMarcupBreeds(allBreeds) {
   return allBreeds.map(({ name }) => `<option value="${name}">${name}</option>`).join('');
 }
 
-// fetchBreeds() 
-//   .then((response) => {
-//     const breeds = response.data;
-//     const optionsMarkup = breeds.map(breed => `<option value="${breed.id}">${breed.name}</option>`).join('');
-//     selectBreed.innerHTML = optionsMarkup;
-//   })
-//   .catch(error => {
-//       console.error('Error fetching breeds:', error);
-//   });
-
-
 // Напиши функцію fetchCatByBreed(breedId), яка очікує ідентифікатор породи, робить HTTP-запит і повертає проміс із даними про кота - результатом запиту. Винеси її у файл cat-api.js і зроби іменований експорт.
 export function fetchCatByBreed(breedId){
   // https://api.thecatapi.com/v1/images/search?breed_ids=breedId

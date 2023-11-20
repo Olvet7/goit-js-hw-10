@@ -4,6 +4,7 @@ import {fetchBreeds} from './cat-api';
 import {fetchCatByBreed} from './cat-api';
 import {createMarcupCat} from './cat-api';
 
+// Стартові посилання 
 const refs = {
   selectBreed: document.querySelector('.breed-select'),
   selectEl: document.querySelector('.breed-select'),
@@ -11,10 +12,11 @@ const refs = {
   errorEl: document.querySelector('.error'),
   divEl: document.querySelector('.cat-info')
 }
-
+// Показати загрузку, приховати помилку
 showLoader();
 hideError() 
 
+// Функція з підгрузки всіх порід в select
 fetchBreeds() 
   .then((response) => {
     const breeds = response.data;
@@ -27,18 +29,6 @@ fetchBreeds()
   .finally(() => {
     hideLoader(); // Ховаємо loader після завершення запиту
   });
-
-// refs.selectEl.addEventListener('change', (evt) => {
-//   const breedId = evt.target.value;
-//   fetchCatByBreed(breedId) {
-//     .then(({name}) => {
-//       // Обробка отриманих даних про кота
-//       // Відображення інформації про кота у div.cat-info
-//     })
-//   }
-// });
-
-// Ваша реалізація функцій з cat-api.js
 
 // Функція для показу loader
 function showLoader() {
@@ -60,70 +50,24 @@ function hideError() {
   document.querySelector('.error').style.display = 'none';
 }
 
-// Завантаження списку порід під час завантаження сторінки
-refs.selectEl.addEventListener('DOMContentLoaded', async () => {
-  try {
-    showLoader();
-    const response = await fetchBreeds();
-    const allBreeds = response.data;
-    const selectBreed = document.querySelector('.breed-select');
-    selectBreed.innerHTML = createMarcupBreeds(allBreeds);
-    new SlimSelect({ select: '.breed-select' });
-  } catch (error) {
-    showError();
-  } finally {
-    hideLoader();
-  }
-});
-
 // Обробник подій для вибору породи
-
 refs.selectEl.addEventListener('change', onShowCat);
 showLoader(); 
 
+// Функція при виборі потрібної породи із select (показує розмітку з картинкою, назвою, описом та інформацію про темперамент)
 function onShowCat(evt) {
+  showLoader()
+  refs.divEl.innerHTML = '';
   const breedId = evt.target.value;
   fetchCatByBreed(breedId)
   .then(data => {
     const markupCat = createMarcupCat(data)
     refs.divEl.innerHTML = markupCat;
+    hideLoader(); 
   })
   .catch(error => {
     console.error('Error fetching cat data:', error);
+    showError()
+    hideLoader(); 
   })
-  .finally(() => {
-    hideLoader(); // Ховаємо loader після завершення запиту
-  });
-}
-
-// const breedId = event.target.value;
-  // fetchCatByBreed(breedId)
-
-  // try {
-  //   console.log('ololo');
-  //   showLoader();
-  //   const catInfo = await fetchCatByBreed(breedId);
-  //   const catMarkup = createMarcupCat(catInfo)
-  //   refs.divEl.innerHTML = catMarkup;
-
-  //   // Відобразіть інформацію про кота в DOM - назва породи, опис і темперамент
-  //   // Наприклад, ви можете викликати функцію, яка створить блок із зображенням та іншою інформацією
-  // } catch (error) {
-  //   showError();
-  // } finally {
-  //   hideLoader();
-  // }
-// });
-
-// Функція відмальовує в дом інформацію про кота
-export function createMarcupCat(data){
-  const {name, wikipedia_url, temperament, url} = data;
-  return catData = `<div class="cat">
-  <img src="${url}" alt="${name}">
-  <div>
-    <h1 class="titleName">${name}</h1>
-    <p class="description">${wikipedia_url}</p>
-    <p class="temperament">${temperament}</p>
-  </div>
-</div>`
 }
