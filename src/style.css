@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin: 0;
+    font-weight: 400;
+  }
+
+  span {
+    margin: 0;
+    padding: 0;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+.cat {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.cat-info {
+    display: inline-block;
+}
+
+.temperament {
+    font-weight: bold;
+}
+
+.cat img {
+    margin-right: 20px; /* Відступ між зображенням і текстом */
+  }
+  
+  .cat div {
+    flex-grow: 1; /* Займати доступне простір по ширині */
+  }
