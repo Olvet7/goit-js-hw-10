@@ -48,9 +48,9 @@ export function createMarcupCat(data){
   const { url } = data[0];
   const { name, description, temperament } = data[0].breeds[0];
 
-  return `<div class="cat">
+  return `<div class="container">
   <img src="${url}" alt="${name}" height="300">
-  <div class="cat-info">
+  <div class="info">
     <h1 class="titleName">${name}</h1>
     <p class="description">${description}</p>
     <p><span class="temperament">Temperament:</span> ${temperament}</p>

@@ -18,30 +18,42 @@
     padding: 0;
   }
   
-  img {
-    display: block;
-    max-width: 100%;
-  }
-
-.cat {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: space-between;
+.body {
+  margin: 0 auto;
+  max-width: 1000px;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
-.cat-info {
-    display: inline-block;
+.info {
+  margin-left: 10px;
+  flex-grow: 1; 
+  padding: 10px;
+  width: 300px;
+  font-size: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: start;
+  max-width: 1020px;
+}
+
+img {
+  margin-top: 10px;
+  max-height: 300px;
+  max-width: 40%;
+  object-fit: contain;
+}
+
+.titleName {
+  margin-bottom: 10px;
+}
+
+.description {
+  margin-bottom: 10px;
 }
 
 .temperament {
-    font-weight: bold;
+  font-weight: bold;
 }
-
-.cat img {
-    margin-right: 20px; /* Відступ між зображенням і текстом */
-  }
-  
-  .cat div {
-    flex-grow: 1; /* Займати доступне простір по ширині */
-  }
