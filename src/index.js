@@ -2,7 +2,6 @@ import axios from 'axios';
 import SlimSelect from 'slim-select';
 import {fetchBreeds} from './cat-api';
 import {fetchCatByBreed} from './cat-api';
-import {createMarcupCat} from './cat-api';
 
 // Стартові посилання 
 const refs = {
@@ -13,12 +12,14 @@ const refs = {
   divEl: document.querySelector('.cat-info')
 }
 // Показати загрузку, приховати помилку
+hideSelect()
 showLoader();
 hideError() 
 
 // Функція з підгрузки всіх порід в select
 fetchBreeds() 
   .then((response) => {
+    showSelect() 
     const breeds = response.data;
     const optionsMarkup = breeds.map(breed => `<option value="${breed.id}">${breed.name}</option>`).join('');
     refs.selectBreed.innerHTML = optionsMarkup;
@@ -29,6 +30,18 @@ fetchBreeds()
   .finally(() => {
     hideLoader(); // Ховаємо loader після завершення запиту
   });
+
+
+// Функція для показу випадаючого меню
+function hideSelect() {
+  refs.selectBreed.style.display = 'none';
+}
+
+// Функція для приховання випадаючого меню
+function showSelect() {
+  refs.selectBreed.style.display = 'block';
+}
+
 
 // Функція для показу loader
 function showLoader() {
@@ -56,6 +69,7 @@ showLoader();
 
 // Функція при виборі потрібної породи із select (показує розмітку з картинкою, назвою, описом та інформацію про темперамент)
 function onShowCat(evt) {
+  hideError()
   showLoader()
   refs.divEl.innerHTML = '';
   const breedId = evt.target.value;
@@ -70,4 +84,23 @@ function onShowCat(evt) {
     showError()
     hideLoader(); 
   })
+}
+
+// Функція відмальовує в дом інформацію про кота
+function createMarcupCat(data){
+  const { url } = data[0];
+  const { name, description, temperament } = data[0].breeds[0];
+
+  return `<div class="container">
+  <img src="${url}" alt="${name}" height="300">
+  <div class="info">
+    <h1 class="titleName">${name}</h1>
+    <p class="description">${description}</p>
+    <p><span class="temperament">Temperament:</span> ${temperament}</p>
+  </div>
+</div>`
+}
+
+function createMarcupBreeds(allBreeds) {
+  return allBreeds.map(({ name }) => `<option value="${name}">${name}</option>`).join('');
 }
